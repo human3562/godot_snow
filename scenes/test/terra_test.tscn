@@ -1,0 +1,265 @@
+[gd_scene load_steps=33 format=3 uid="uid://l7rly8mo4itl"]
+
+[ext_resource type="Shader" uid="uid://btabablblcl74" path="res://scenes/test/terrain_shader.gdshader" id="1_34lx8"]
+[ext_resource type="Script" uid="uid://bmv8xsc6ea3kk" path="res://scenes/test/main_test.gd" id="1_rdiyy"]
+[ext_resource type="Script" uid="uid://c50rsqx4uy5un" path="res://scenes/test/follow_player.gd" id="2_n4scw"]
+[ext_resource type="Shader" uid="uid://hiy873wj5e1k" path="res://scenes/test/quad_depth.gdshader" id="2_r1v0p"]
+[ext_resource type="PackedScene" uid="uid://domhm87hbhbg1" path="res://demo/components/Player.tscn" id="3_n4scw"]
+[ext_resource type="PackedScene" uid="uid://cufeci4h74fdx" path="res://scenes/physics_box.tscn" id="5_n4scw"]
+[ext_resource type="Shader" uid="uid://bdbokbvrigugs" path="res://scenes/test/viewportB.gdshader" id="7_653fh"]
+[ext_resource type="Shader" uid="uid://b25f7j203fla" path="res://scenes/test/test_snow_plane.gdshader" id="8_653fh"]
+[ext_resource type="Texture2D" uid="uid://c307hdmos4gtm" path="res://demo/assets/textures/rock023_nrm_rgh.png" id="9_wx8uo"]
+[ext_resource type="PackedScene" uid="uid://bqmdovwfqxitq" path="res://scenes/player_animations_test/dummy_character.tscn" id="10_vp68b"]
+
+[sub_resource type="Gradient" id="Gradient_wx8uo"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vp68b"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ru5e1"]
+seamless = true
+color_ramp = SubResource("Gradient_wx8uo")
+noise = SubResource("FastNoiseLite_vp68b")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ru5e1"]
+viewport_path = NodePath("ViewportB")
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_34lx8"]
+_shader_parameters = {
+&"bias_distance": 512.0,
+&"blend_sharpness": 0.87,
+&"depth_blur": 0.0,
+&"enable_macro_variation": true,
+&"enable_projection": true,
+&"ground_color": Vector3(0.8, 0.8, 0.8),
+&"height_blending": true,
+&"macro_variation1": Color(1, 1, 1, 1),
+&"macro_variation2": Color(1, 1, 1, 1),
+&"macro_variation_slope": 0.333,
+&"mipmap_bias": 1.0,
+&"noise1_angle": 0.0,
+&"noise1_offset": Vector2(0.5, 0.5),
+&"noise1_scale": 0.04,
+&"noise2_scale": 0.076,
+&"noise3_scale": 0.225,
+&"noise_texture": SubResource("NoiseTexture2D_ru5e1"),
+&"projection_angular_division": 2.0,
+&"projection_threshold": 0.8,
+&"snow_map": SubResource("ViewportTexture_ru5e1"),
+&"trail_color": Vector3(0.2, 0.2, 0.2),
+&"trail_max_depth": 0.5,
+&"trail_plane_position": Vector2(0, 100),
+&"world_space_normal_blend": true
+}
+world_background = 0
+shader_override_enabled = true
+shader_override = ExtResource("1_34lx8")
+show_checkered = true
+show_region_grid = true
+resource_local_to_scene = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r1v0p"]
+transparency = 4
+cull_mode = 2
+vertex_color_use_as_albedo = true
+backlight_enabled = true
+backlight = Color(0.5, 0.5, 0.5, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 128.0
+distance_fade_max_distance = 96.0
+
+[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_n4scw"]
+generated_type = 1
+height_offset = 0.5
+material_override = SubResource("StandardMaterial3D_r1v0p")
+last_lod = 0
+last_shadow_lod = 0
+lod0_range = 128.0
+
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_um82e"]
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_n4scw")])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_um82e"]
+render_priority = 0
+shader = ExtResource("2_r1v0p")
+
+[sub_resource type="QuadMesh" id="QuadMesh_rdiyy"]
+size = Vector2(128, 128)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_653fh"]
+viewport_path = NodePath("ViewportB")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_wx8uo"]
+viewport_path = NodePath("IntersectionViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vp68b"]
+resource_local_to_scene = true
+shader = ExtResource("7_653fh")
+shader_parameter/current_depth = SubResource("ViewportTexture_wx8uo")
+shader_parameter/plane_delta = Vector2(0, 0)
+shader_parameter/fade_factor = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_vp68b"]
+viewport_path = NodePath("ViewportB")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wx8uo"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("8_653fh")
+shader_parameter/snow_map = SubResource("ViewportTexture_vp68b")
+shader_parameter/ground_color = Vector3(0.8, 0.8, 0.8)
+shader_parameter/trail_color = Vector3(0.2, 0.2, 0.2)
+shader_parameter/trail_plane_position = Vector2(0, 100)
+shader_parameter/trail_max_depth = 0.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vp68b"]
+size = Vector2(64, 64)
+subdivide_width = 150
+subdivide_depth = 150
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vp68b"]
+albedo_texture = ExtResource("9_wx8uo")
+
+[sub_resource type="SphereMesh" id="SphereMesh_ru5e1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0ula4"]
+radius = 1.5
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0ula4"]
+viewport_path = NodePath("ViewportB")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_plsn8"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("8_653fh")
+shader_parameter/snow_map = SubResource("ViewportTexture_0ula4")
+shader_parameter/ground_color = Vector3(0.8, 0.8, 0.8)
+shader_parameter/trail_color = Vector3(0.2, 0.2, 0.2)
+shader_parameter/trail_plane_position = Vector2(0, 100)
+shader_parameter/trail_max_depth = 0.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wx8uo"]
+size = Vector2(64, 64)
+subdivide_width = 300
+subdivide_depth = 300
+
+[node name="terra_test" type="Node3D"]
+script = ExtResource("1_rdiyy")
+
+[node name="Terrain3D" type="Terrain3D" parent="."]
+data_directory = "res://scenes/test/terrain_data"
+material = SubResource("Terrain3DMaterial_34lx8")
+assets = SubResource("Terrain3DAssets_um82e")
+save_16_bit = true
+show_grid = true
+collision_mode = 3
+vertex_spacing = 0.25
+render_layers = 2147483650
+show_checkered = true
+show_region_grid = true
+top_level = true
+visible = false
+metadata/_edit_lock_ = true
+
+[node name="IntersectionViewport" type="SubViewport" parent="."]
+transparent_bg = true
+vrs_update_mode = 2
+size = Vector2i(2048, 2048)
+
+[node name="intersection_root" type="Node3D" parent="IntersectionViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+script = ExtResource("2_n4scw")
+
+[node name="IntersectionCamera" type="Camera3D" parent="IntersectionViewport/intersection_root"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.5, 0)
+cull_mask = 262145
+projection = 1
+size = 128.0
+far = 1.0
+
+[node name="Depth_hack" type="MeshInstance3D" parent="IntersectionViewport/intersection_root/IntersectionCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.317, 0, 0, -0.167)
+layers = 262144
+material_override = SubResource("ShaderMaterial_um82e")
+mesh = SubResource("QuadMesh_rdiyy")
+skeleton = NodePath("../../../..")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(12.8, 1.11901e-06, -1.35101e-13, 0, -5.59506e-07, -35.354, -1.11901e-06, 12.8, -1.54537e-06, 0, 41.4263, 100)
+layers = 524288
+modulate = Color(1, 1, 1, 0.803922)
+texture = SubResource("ViewportTexture_653fh")
+script = ExtResource("2_n4scw")
+
+[node name="Player" parent="." instance=ExtResource("3_n4scw")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+
+[node name="Box" parent="." instance=ExtResource("5_n4scw")]
+transform = Transform3D(0.325911, 0.0566304, -0.943703, -0.853048, 0.447922, -0.267724, 0.407544, 0.892278, 0.194291, 5.32205, 0.446828, 87.8201)
+collision_layer = 2
+collision_mask = 3
+
+[node name="Box2" parent="." instance=ExtResource("5_n4scw")]
+transform = Transform3D(-0.977517, -0.185235, -0.100742, -0.204128, 0.711587, 0.672291, -0.0528452, 0.67774, -0.7334, 5.97877, 5.72185, 109.816)
+collision_layer = 2
+collision_mask = 3
+
+[node name="Box3" parent="." instance=ExtResource("5_n4scw")]
+transform = Transform3D(0.325911, 0.0566304, -0.943703, -0.853048, 0.447922, -0.267724, 0.407544, 0.892278, 0.194291, -4.67792, 3.60634, 89.572)
+collision_layer = 2
+collision_mask = 3
+
+[node name="ViewportB" type="SubViewport" parent="."]
+size = Vector2i(1024, 1024)
+render_target_clear_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="ViewportB"]
+material = SubResource("ShaderMaterial_vp68b")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="test_snowplane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 100)
+material_override = SubResource("ShaderMaterial_wx8uo")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_vp68b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.304698, 0.952449, 0, -0.952449, 0.304698, 0, 0, 0)
+shadow_enabled = true
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.11413, 111.316)
+collision_layer = 2
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_vp68b")
+mesh = SubResource("SphereMesh_ru5e1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_0ula4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 1, 100)
+material_override = SubResource("ShaderMaterial_plsn8")
+mesh = SubResource("PlaneMesh_wx8uo")
+
+[node name="DummyCharacter" parent="." instance=ExtResource("10_vp68b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.87638, 1.28592, 102.748)
