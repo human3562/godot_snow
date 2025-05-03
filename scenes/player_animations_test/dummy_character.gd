@@ -13,6 +13,8 @@ const CAMERA_RATIO: float = .625
 var desired_move_vector = Vector2()
 var current_move_vector = Vector2()
 
+var is_sprinting = false
+
 var current_player_rotation = 0.0;
 
 var idling_time = 0.0;
@@ -33,7 +35,7 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	camera_mount.position = camera_mounting_point.global_position
 	
-	var sprint_mul = 1.0 if Input.is_action_pressed("sprint") else 0.5
+	var walk_mul = 1.0 if !Input.is_action_pressed("walk") else 0.5
 	
 	var horizontal_input = -Input.get_axis("move_right", "move_left")
 	var vertical_input = Input.get_axis("move_backward", "move_forward")
@@ -41,18 +43,24 @@ func _process(delta: float) -> void:
 	if move_vector.length() > 1:
 		move_vector = move_vector.normalized()
 	
+	desired_move_vector = move_vector * walk_mul
+	current_move_vector = lerp(current_move_vector, desired_move_vector, delta * movement_smoothing)
+	
 	if move_vector.length() == 0:
 		idling_time += delta
+		is_sprinting = false
 	else: 
 		idling_time = 0
 		animation_tree.set("parameters/Locomotion/0/Transition/transition_request", "idle01")
-		rotation.y = rotate_toward(rotation.y, camera_mount.rotation.y, delta * 10)
-		# rotate_y(camera_mount.rotation.y * 0.5)
-		
-		
-	
-	desired_move_vector = move_vector * sprint_mul
-	current_move_vector = lerp(current_move_vector, desired_move_vector, delta * movement_smoothing)
+		if Input.is_action_pressed("sprint"):
+			is_sprinting = true
+			var desired_rotation = camera_mount.rotation.y + current_move_vector.angle() - PI/2.0
+			rotation.y = rotate_toward(rotation.y, desired_rotation, delta * 2.5)
+			var angle_diff = angle_difference(rotation.y, desired_rotation) * 1.5
+			animation_tree.set("parameters/Sprint/blend_position", angle_diff)
+		else:
+			is_sprinting = false
+			rotation.y = rotate_toward(rotation.y, camera_mount.rotation.y, delta * 10)
 	
 	animation_tree.set("parameters/Locomotion/blend_position", current_move_vector)
 	
