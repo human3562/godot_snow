@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		current_pos.z
 	))
 	
-	$MeshInstance3D.material_override.set_shader_parameter("trail_plane_position", Vector2(
+	$test_snowplane_x2meshdetail.material_override.set_shader_parameter("trail_plane_position", Vector2(
 		current_pos.x,
 		current_pos.z
 	))

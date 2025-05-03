@@ -2,6 +2,7 @@ shader_type spatial;
 
 render_mode world_vertex_coords;
 
+uniform sampler2D albedo_base : hint_default_white, repeat_enable, filter_nearest;
 uniform sampler2D snow_map : hint_default_black, repeat_disable, filter_linear;
 uniform vec3 ground_color = vec3(0.8);
 uniform vec3 trail_color = vec3(1.0);
@@ -34,5 +35,5 @@ void fragment(){
 	adjusted_uv.g = 1.0 - adjusted_uv.g;
 	float trail = texture(snow_map, adjusted_uv).r;
 	vec3 trail_colored = 1.0 - trail * trail_color;
-	ALBEDO = ground_color * trail_colored;
+	ALBEDO = texture(albedo_base, UV * 64.).rgb * ground_color * trail_colored;
 }

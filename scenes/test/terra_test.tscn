@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://l7rly8mo4itl"]
+[gd_scene load_steps=34 format=3 uid="uid://l7rly8mo4itl"]
 
 [ext_resource type="Shader" uid="uid://btabablblcl74" path="res://scenes/test/terrain_shader.gdshader" id="1_34lx8"]
 [ext_resource type="Script" uid="uid://bmv8xsc6ea3kk" path="res://scenes/test/main_test.gd" id="1_rdiyy"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cufeci4h74fdx" path="res://scenes/physics_box.tscn" id="5_n4scw"]
 [ext_resource type="Shader" uid="uid://bdbokbvrigugs" path="res://scenes/test/viewportB.gdshader" id="7_653fh"]
 [ext_resource type="Shader" uid="uid://b25f7j203fla" path="res://scenes/test/test_snow_plane.gdshader" id="8_653fh"]
+[ext_resource type="Texture2D" uid="uid://cm442j4w46vqd" path="res://textures/checker.png" id="8_vp68b"]
 [ext_resource type="Texture2D" uid="uid://c307hdmos4gtm" path="res://demo/assets/textures/rock023_nrm_rgh.png" id="9_wx8uo"]
 [ext_resource type="PackedScene" uid="uid://bqmdovwfqxitq" path="res://scenes/player_animations_test/dummy_character.tscn" id="10_vp68b"]
 
@@ -116,6 +117,7 @@ viewport_path = NodePath("ViewportB")
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("8_653fh")
+shader_parameter/albedo_base = ExtResource("8_vp68b")
 shader_parameter/snow_map = SubResource("ViewportTexture_vp68b")
 shader_parameter/ground_color = Vector3(0.8, 0.8, 0.8)
 shader_parameter/trail_color = Vector3(1, 1, 1)
@@ -142,6 +144,7 @@ viewport_path = NodePath("ViewportB")
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("8_653fh")
+shader_parameter/albedo_base = ExtResource("8_vp68b")
 shader_parameter/snow_map = SubResource("ViewportTexture_0ula4")
 shader_parameter/ground_color = Vector3(0.8, 0.8, 0.8)
 shader_parameter/trail_color = Vector3(1, 1, 1)
@@ -254,7 +257,7 @@ mesh = SubResource("SphereMesh_ru5e1")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("SphereShape3D_0ula4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="test_snowplane_x2meshdetail" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0.5, 100)
 material_override = SubResource("ShaderMaterial_plsn8")
 mesh = SubResource("PlaneMesh_wx8uo")
