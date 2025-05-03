@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bmv8xsc6ea3kk" path="res://scenes/test/main_test.gd" id="1_rdiyy"]
 [ext_resource type="Script" uid="uid://c50rsqx4uy5un" path="res://scenes/test/follow_player.gd" id="2_n4scw"]
 [ext_resource type="Shader" uid="uid://hiy873wj5e1k" path="res://scenes/test/quad_depth.gdshader" id="2_r1v0p"]
-[ext_resource type="PackedScene" uid="uid://domhm87hbhbg1" path="res://demo/components/Player.tscn" id="3_n4scw"]
 [ext_resource type="PackedScene" uid="uid://cufeci4h74fdx" path="res://scenes/physics_box.tscn" id="5_n4scw"]
 [ext_resource type="Shader" uid="uid://bdbokbvrigugs" path="res://scenes/test/viewportB.gdshader" id="7_653fh"]
 [ext_resource type="Shader" uid="uid://b25f7j203fla" path="res://scenes/test/test_snow_plane.gdshader" id="8_653fh"]
@@ -119,7 +118,7 @@ render_priority = 0
 shader = ExtResource("8_653fh")
 shader_parameter/snow_map = SubResource("ViewportTexture_vp68b")
 shader_parameter/ground_color = Vector3(0.8, 0.8, 0.8)
-shader_parameter/trail_color = Vector3(0.2, 0.2, 0.2)
+shader_parameter/trail_color = Vector3(1, 1, 1)
 shader_parameter/trail_plane_position = Vector2(0, 100)
 shader_parameter/trail_max_depth = 0.5
 
@@ -145,7 +144,7 @@ render_priority = 0
 shader = ExtResource("8_653fh")
 shader_parameter/snow_map = SubResource("ViewportTexture_0ula4")
 shader_parameter/ground_color = Vector3(0.8, 0.8, 0.8)
-shader_parameter/trail_color = Vector3(0.2, 0.2, 0.2)
+shader_parameter/trail_color = Vector3(1, 1, 1)
 shader_parameter/trail_plane_position = Vector2(0, 100)
 shader_parameter/trail_max_depth = 0.5
 
@@ -153,6 +152,8 @@ shader_parameter/trail_max_depth = 0.5
 size = Vector2(64, 64)
 subdivide_width = 300
 subdivide_depth = 300
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wx8uo"]
 
 [node name="terra_test" type="Node3D"]
 script = ExtResource("1_rdiyy")
@@ -174,8 +175,9 @@ metadata/_edit_lock_ = true
 
 [node name="IntersectionViewport" type="SubViewport" parent="."]
 transparent_bg = true
+anisotropic_filtering_level = 0
 vrs_update_mode = 2
-size = Vector2i(2048, 2048)
+size = Vector2i(4096, 4096)
 
 [node name="intersection_root" type="Node3D" parent="IntersectionViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
@@ -196,15 +198,11 @@ mesh = SubResource("QuadMesh_rdiyy")
 skeleton = NodePath("../../../..")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(12.8, 1.11901e-06, -1.35101e-13, 0, -5.59506e-07, -35.354, -1.11901e-06, 12.8, -1.54537e-06, 0, 41.4263, 100)
+transform = Transform3D(1, 8.74227e-08, -1.05546e-14, 0, -4.37114e-08, -2.762, -8.74227e-08, 1, -1.20731e-07, 0, 8.43515, 100)
 layers = 524288
 modulate = Color(1, 1, 1, 0.803922)
 texture = SubResource("ViewportTexture_653fh")
 script = ExtResource("2_n4scw")
-
-[node name="Player" parent="." instance=ExtResource("3_n4scw")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
 
 [node name="Box" parent="." instance=ExtResource("5_n4scw")]
 transform = Transform3D(0.325911, 0.0566304, -0.943703, -0.853048, 0.447922, -0.267724, 0.407544, 0.892278, 0.194291, 5.32205, 0.446828, 87.8201)
@@ -222,7 +220,7 @@ collision_layer = 2
 collision_mask = 3
 
 [node name="ViewportB" type="SubViewport" parent="."]
-size = Vector2i(1024, 1024)
+size = Vector2i(4096, 4096)
 render_target_clear_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="ViewportB"]
@@ -257,9 +255,14 @@ mesh = SubResource("SphereMesh_ru5e1")
 shape = SubResource("SphereShape3D_0ula4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 1, 100)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0.5, 100)
 material_override = SubResource("ShaderMaterial_plsn8")
 mesh = SubResource("PlaneMesh_wx8uo")
 
-[node name="DummyCharacter" parent="." instance=ExtResource("10_vp68b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.87638, 1.28592, 102.748)
+[node name="Player" parent="." instance=ExtResource("10_vp68b")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.876, 0, 102.748)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.27742, 0.890005, 102.635)
+mesh = SubResource("CapsuleMesh_wx8uo")

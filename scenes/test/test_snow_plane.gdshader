@@ -4,7 +4,7 @@ render_mode world_vertex_coords;
 
 uniform sampler2D snow_map : hint_default_black, repeat_disable, filter_linear;
 uniform vec3 ground_color = vec3(0.8);
-uniform vec3 trail_color = vec3(0.2);
+uniform vec3 trail_color = vec3(1.0);
 uniform vec2 trail_plane_position;
 uniform float trail_max_depth : hint_range(0.0, 1.0) = 0.5;
 
