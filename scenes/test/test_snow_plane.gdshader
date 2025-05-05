@@ -19,7 +19,7 @@ vec3 getNormal(vec2 uv, float texelSize) {
 
 void vertex() {
 	vec2 world_uv = NODE_POSITION_WORLD.rb + (UV) * 64.;
-	vec2 adjusted_uv = (world_uv + vec2(32., 32.) - trail_plane_position) / 128.;
+	vec2 adjusted_uv = (world_uv + vec2(64. + 32., 64. + 32.) - trail_plane_position) / 256.;
 	adjusted_uv.g = 1.0 - adjusted_uv.g;
 	float trail = texture(snow_map, adjusted_uv).r;
 
@@ -30,9 +30,9 @@ void vertex() {
 
 void fragment(){
 	vec2 world_uv = NODE_POSITION_WORLD.rb + (UV) * 64.;
-	vec2 adjusted_uv = (world_uv + vec2(32., 32.) - trail_plane_position) / 128.;
+	vec2 adjusted_uv = (world_uv + vec2(64. + 32., 64. + 32.) - trail_plane_position) / 256.;
 	adjusted_uv.g = 1.0 - adjusted_uv.g;
 	float trail = texture(snow_map, adjusted_uv).r;
-	vec3 trail_colored = 1.0 - trail * trail_color;
-	ALBEDO = ground_color * trail_colored;
+	vec3 trail_colored = 1.0 - trail * vec3(1.0);
+	ALBEDO = trail_colored;
 }
