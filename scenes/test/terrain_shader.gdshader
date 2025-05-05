@@ -76,8 +76,7 @@ uniform sampler2D snow_map : repeat_disable, filter_linear;
 uniform float trail_max_depth : hint_range(0.0, 1.0) = 0.5;
 uniform vec2 trail_plane_position;
 // these are debug
-uniform vec3 ground_color = vec3(0.8);
-uniform vec3 trail_color = vec3(0.2);
+uniform vec3 trail_color = vec3(0.0);
 
 // Varyings & Types
 
@@ -134,7 +133,7 @@ vec3 getNormal(vec2 uv, float texelSize) {
 	float r = texture(snow_map, uv + vec2(texelSize * vec2(1.0, 0.0))).r * trail_max_depth;
 	float l = texture(snow_map, uv + vec2(texelSize * vec2(-1.0, 0.0))).r * trail_max_depth;
 	float b = texture(snow_map, uv + vec2(texelSize * vec2(0.0, 1.0))).r * trail_max_depth;
-	
+
 	return -normalize(vec3(2.0 * (r - l), 2.0 * (b - t), -4.0));
 }
 
@@ -182,18 +181,17 @@ void vertex() {
 		ivec3 coord_a = get_index_coord(start_pos, VERTEX_PASS);
 		ivec3 coord_b = get_index_coord(end_pos, VERTEX_PASS);
 		float h = mix(texelFetch(_height_maps, coord_a, 0).r,texelFetch(_height_maps, coord_b, 0).r,vertex_lerp);
-		
-		// vec2 world_uv = NODE_POSITION_WORLD.rb + (UV) * 64.;  // custom snow trail logic
-		vec2 adjusted_uv = (UV2 + vec2(0.5, 0.5) - trail_plane_position / 64.);
+
+		vec2 adjusted_uv = (UV + vec2(1024. / 2.) - trail_plane_position * 4.) / 1024.;
 		adjusted_uv.g = 1.0 - adjusted_uv.g;
 		float trail = texture(snow_map, adjusted_uv).r;
-		
+
 		v_vertex.y = h + (trail_max_depth - trail * trail_max_depth);
 	}
-	
+
 	// v_vertex.y -= trail * trail_max_depth; // subtract snow trail?
 	// NORMAL = getNormal(adjusted_uv, 1.0 / float(textureSize(snow_map, 0).x));
-	
+
 	// Convert model space to view space w/ skip_vertex_transform render mode
 	VERTEX = (VIEW_MATRIX * vec4(v_vertex, 1.0)).xyz;
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
@@ -600,8 +598,14 @@ void fragment() {
 	// Wetness/roughness modifier, converting 0 - 1 range to -1 to 1 range
 	float roughness = fma(color_map.a - 0.5, 2.0, normal_rough.a);
 
+	vec2 adjusted_uv = (UV + vec2(1024. / 2.) - trail_plane_position * 4.) / 1024.;
+	adjusted_uv.g = 1.0 - adjusted_uv.g;
+
+	float trail = texture(snow_map, adjusted_uv).r;
+	vec3 trail_colored = 1.0 - trail * vec3(1.0);
+
 	// Apply PBR
-	ALBEDO = albedo_height.rgb * color_map.rgb * macrov;
+	ALBEDO = albedo_height.rgb * color_map.rgb * macrov * trail_colored;
 	//ALBEDO = vec3(region_uv.x, region_uv.y, 0.);
 	ROUGHNESS = roughness;
 	SPECULAR = 1. - normal_rough.a;

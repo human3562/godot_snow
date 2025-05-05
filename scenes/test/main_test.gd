@@ -1,11 +1,12 @@
 extends Node3D
 
 var last_pos = Vector3(0,0,0)
+var delta_vec = Vector2(0, 0)
 
 func _ready() -> void:
 	$ViewportB.get_texture().get_image().fill(Color(0,0,0,0))
 	last_pos = $IntersectionViewport/intersection_root.position
-	
+
 func _process(delta: float) -> void:
 	var current_pos = $IntersectionViewport/intersection_root.position
 	#var plane_world = Vector2(
@@ -15,9 +16,10 @@ func _process(delta: float) -> void:
 	
 	var depth_camera_size = ($IntersectionViewport/intersection_root/IntersectionCamera as Camera3D).size
 	
-	var delta_vec = Vector2(
-		(last_pos.x - current_pos.x) / depth_camera_size,
-		-(last_pos.z - current_pos.z) / depth_camera_size
+	
+	delta_vec = Vector2(
+		(last_pos.x - current_pos.x) / 256.,
+		-(last_pos.z - current_pos.z) / 256.
 	)
 	
 	$ViewportB/ColorRect.material.set_shader_parameter("plane_delta", delta_vec)
