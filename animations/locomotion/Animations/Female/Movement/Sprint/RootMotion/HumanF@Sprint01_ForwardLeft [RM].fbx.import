@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
+type="AnimationLibrary"
 uid="uid://j1j3ggfllvj2"
-path="res://.godot/imported/HumanF@Sprint01_ForwardLeft [RM].fbx-7c2f78e023f9c5c6a743a03902fb1d35.scn"
+path="res://.godot/imported/HumanF@Sprint01_ForwardLeft [RM].fbx-7c2f78e023f9c5c6a743a03902fb1d35.res"
 
 [deps]
 
 source_file="res://animations/locomotion/Animations/Female/Movement/Sprint/RootMotion/HumanF@Sprint01_ForwardLeft [RM].fbx"
-dest_files=["res://.godot/imported/HumanF@Sprint01_ForwardLeft [RM].fbx-7c2f78e023f9c5c6a743a03902fb1d35.scn"]
+dest_files=["res://.godot/imported/HumanF@Sprint01_ForwardLeft [RM].fbx-7c2f78e023f9c5c6a743a03902fb1d35.res"]
 
 [params]
 

@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://r8ma7fty1yps"]
+
+[ext_resource type="PackedScene" uid="uid://bqmdovwfqxitq" path="res://scenes/player_animations_test/dummy_character.tscn" id="1_a4mpy"]
+[ext_resource type="Texture2D" uid="uid://cm442j4w46vqd" path="res://textures/checker.png" id="2_eqo2e"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_bfat0"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yfcqk"]
+size = Vector2(64, 64)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4mpy"]
+albedo_texture = ExtResource("2_eqo2e")
+uv1_scale = Vector3(64, 64, 64)
+
+[sub_resource type="Environment" id="Environment_a4mpy"]
+
+[node name="player_test_scene" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_bfat0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_yfcqk")
+surface_material_override/0 = SubResource("StandardMaterial3D_a4mpy")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_a4mpy")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.306161, 0.95198, 0, -0.95198, 0.306161, 0, 2.68479, 0)
+shadow_enabled = true
+
+[node name="DummyCharacter" parent="." instance=ExtResource("1_a4mpy")]

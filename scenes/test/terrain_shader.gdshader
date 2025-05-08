@@ -182,7 +182,7 @@ void vertex() {
 		ivec3 coord_b = get_index_coord(end_pos, VERTEX_PASS);
 		float h = mix(texelFetch(_height_maps, coord_a, 0).r,texelFetch(_height_maps, coord_b, 0).r,vertex_lerp);
 
-		vec2 adjusted_uv = (UV + vec2(1024. / 2.) - trail_plane_position * 4.) / 1024.;
+		vec2 adjusted_uv = (UV + vec2(512. / 2.) - trail_plane_position * 4.) / 512.;
 		adjusted_uv.g = 1.0 - adjusted_uv.g;
 		float trail = texture(snow_map, adjusted_uv).r;
 
@@ -598,7 +598,7 @@ void fragment() {
 	// Wetness/roughness modifier, converting 0 - 1 range to -1 to 1 range
 	float roughness = fma(color_map.a - 0.5, 2.0, normal_rough.a);
 
-	vec2 adjusted_uv = (UV + vec2(1024. / 2.) - trail_plane_position * 4.) / 1024.;
+	vec2 adjusted_uv = (UV + vec2(512. / 2.) - trail_plane_position * 4.) / 512.;
 	adjusted_uv.g = 1.0 - adjusted_uv.g;
 
 	float trail = texture(snow_map, adjusted_uv).r;
