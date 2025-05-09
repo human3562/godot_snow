@@ -75,6 +75,10 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		set_quaternion(get_quaternion() * animation_tree.get_root_motion_rotation())
 		velocity = (animation_tree.get_root_motion_rotation_accumulator().inverse() * get_quaternion()) * animation_tree.get_root_motion_position() / delta
+	else:
+		var fall_velocity = Vector2(-velocity.x, velocity.z).rotated(-rotation.y) / 4.0
+		print(fall_velocity)
+		animation_tree.set("parameters/Jump/Land_with_velocity/FallVelocity/blend_position", fall_velocity)
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor() and !is_sprinting: 
 		is_jumping = true
