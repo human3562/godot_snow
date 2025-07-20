@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkitous80f10e"]
+
+[ext_resource type="Shader" uid="uid://c6k8au30nqckq" path="res://scenes/proc-terrain-test/proc_terrain.gdshader" id="1_6p7ta"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j158g"]
+shader = ExtResource("1_6p7ta")
+
+[node name="ProcTerrainTest" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_j158g")
+offset_right = 592.0
+offset_bottom = 648.0

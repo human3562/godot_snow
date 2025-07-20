@@ -32,7 +32,6 @@ script = ExtResource("2_loos7")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 2.32515, -0.0321627)
 shape = SubResource("SphereShape3D_smq6u")
-spring_length = 6.0
 margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraManager/Arm"]

@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
+type="AnimationLibrary"
 uid="uid://b6j2rpdtcam8f"
-path="res://.godot/imported/HumanF@Jump01 [RM].fbx-8d8b1a617d349d4ba33c8f8413f3bbaf.scn"
+path="res://.godot/imported/HumanF@Jump01 [RM].fbx-8d8b1a617d349d4ba33c8f8413f3bbaf.res"
 
 [deps]
 
 source_file="res://animations/locomotion/Animations/Female/Movement/Jump/HumanF@Jump01 [RM].fbx"
-dest_files=["res://.godot/imported/HumanF@Jump01 [RM].fbx-8d8b1a617d349d4ba33c8f8413f3bbaf.scn"]
+dest_files=["res://.godot/imported/HumanF@Jump01 [RM].fbx-8d8b1a617d349d4ba33c8f8413f3bbaf.res"]
 
 [params]
 
