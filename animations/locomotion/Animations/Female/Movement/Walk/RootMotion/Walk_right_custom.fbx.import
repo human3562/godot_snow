@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://j1j3ggfllvj2"
-path="res://.godot/imported/HumanF@Sprint01_ForwardLeft [RM].fbx-7c2f78e023f9c5c6a743a03902fb1d35.res"
+uid="uid://btxmonjajma60"
+path="res://.godot/imported/Walk_right_custom.fbx-be1c91687231bca8156ffe719b7d4909.res"
 
 [deps]
 
-source_file="res://animations/locomotion/Animations/Female/Movement/Sprint/RootMotion/HumanF@Sprint01_ForwardLeft [RM].fbx"
-dest_files=["res://.godot/imported/HumanF@Sprint01_ForwardLeft [RM].fbx-7c2f78e023f9c5c6a743a03902fb1d35.res"]
+source_file="res://animations/locomotion/Animations/Female/Movement/Walk/RootMotion/Walk_right_custom.fbx"
+dest_files=["res://.godot/imported/Walk_right_custom.fbx-be1c91687231bca8156ffe719b7d4909.res"]
 
 [params]
 
