@@ -7,7 +7,7 @@ func _ready() -> void:
 	$ViewportB.get_texture().get_image().fill(Color(0,0,0,0))
 	last_pos = $IntersectionViewport/intersection_root.position
 
-func _process(delta: float) -> void:
+func _nop_process(delta: float) -> void:
 	var current_pos = $IntersectionViewport/intersection_root.position
 	#var plane_world = Vector2(
 	#	-current_pos.x / 50.,
