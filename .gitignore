@@ -1,5 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-addons/terrain_3d/bin/~libterrain.windows.debug.x86_64.dll~RF33d2f9e2.TMP
+*.tmp
 addons/terrain_3d/bin/~libterrain.windows.debug.x86_64.dll
+
+/assets/

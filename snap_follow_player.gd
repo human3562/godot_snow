@@ -10,7 +10,7 @@ extends Node
 var last_pos = Vector3(0,0,0)
 var delta_vec = Vector2(0, 0)
 
-var snap_step = 0.5
+var snap_step = 5.0
 
 func _process(_delta):
 	var player_pos: Vector3 = Player.position.snapped(Vector3(snap_step, 0, snap_step))
@@ -23,8 +23,8 @@ func _process(_delta):
 	
 	
 	delta_vec = Vector2(
-		(last_pos.x - player_pos.x) / 128.,
-		-(last_pos.z - player_pos.z) / 128.
+		(last_pos.x - player_pos.x) / 64.,
+		-(last_pos.z - player_pos.z) / 64.
 	)
 	
 	ViewportB.material.set_shader_parameter("plane_delta", delta_vec)

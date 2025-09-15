@@ -73,6 +73,7 @@ uniform float noise3_scale : hint_range(0.001, 1.) = 0.225; // Used for texture 
 
 // Custom heightmap (for trails)
 uniform sampler2D snow_map : repeat_disable, filter_linear;
+uniform float snow_map_size = 64.0;
 uniform float trail_max_depth : hint_range(0.0, 1.0) = 0.5;
 uniform vec2 trail_plane_position;
 // these are debug
@@ -182,15 +183,15 @@ void vertex() {
 		ivec3 coord_b = get_index_coord(end_pos, VERTEX_PASS);
 		float h = mix(texelFetch(_height_maps, coord_a, 0).r,texelFetch(_height_maps, coord_b, 0).r,vertex_lerp);
 
-		vec2 adjusted_uv = (UV + vec2(512. / 2.) - trail_plane_position * 4.) / 512.;
+		vec2 vertex_spaced_trail_plane_position = trail_plane_position / _vertex_spacing;
+		float vertex_spaced_snow_map_size = snow_map_size / _vertex_spacing;
+	
+		vec2 adjusted_uv = (UV - vertex_spaced_trail_plane_position + vec2(vertex_spaced_snow_map_size / 2.0)) / vertex_spaced_snow_map_size;
 		adjusted_uv.g = 1.0 - adjusted_uv.g;
 		float trail = texture(snow_map, adjusted_uv).r;
 
 		v_vertex.y = h + (trail_max_depth - trail * trail_max_depth);
 	}
-
-	// v_vertex.y -= trail * trail_max_depth; // subtract snow trail?
-	// NORMAL = getNormal(adjusted_uv, 1.0 / float(textureSize(snow_map, 0).x));
 
 	// Convert model space to view space w/ skip_vertex_transform render mode
 	VERTEX = (VIEW_MATRIX * vec4(v_vertex, 1.0)).xyz;
@@ -597,8 +598,11 @@ void fragment() {
 
 	// Wetness/roughness modifier, converting 0 - 1 range to -1 to 1 range
 	float roughness = fma(color_map.a - 0.5, 2.0, normal_rough.a);
-
-	vec2 adjusted_uv = (UV + vec2(512. / 2.) - trail_plane_position * 4.) / 512.;
+	
+	vec2 vertex_spaced_trail_plane_position = trail_plane_position / _vertex_spacing;
+	float vertex_spaced_snow_map_size = snow_map_size / _vertex_spacing;
+	
+	vec2 adjusted_uv = (UV - vertex_spaced_trail_plane_position + vec2(vertex_spaced_snow_map_size / 2.0)) / vertex_spaced_snow_map_size;
 	adjusted_uv.g = 1.0 - adjusted_uv.g;
 
 	float trail = texture(snow_map, adjusted_uv).r;
@@ -607,6 +611,7 @@ void fragment() {
 	// Apply PBR
 	ALBEDO = albedo_height.rgb * color_map.rgb * macrov * trail_colored;
 	//ALBEDO = vec3(region_uv.x, region_uv.y, 0.);
+	//ALBEDO = vec3(adjusted_uv, 0.);
 	ROUGHNESS = roughness;
 	SPECULAR = 1. - normal_rough.a;
 	NORMAL_MAP = pack_normal(normal_rough.rgb);
